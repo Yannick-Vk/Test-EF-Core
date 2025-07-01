@@ -5,8 +5,8 @@ namespace Test_Ef.Models;
 
 [Table("Landen")]
 public class Land {
-    [Key]
-    public int LandCode { get; set; }
+    [Key, StringLength(3), DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public required string LandCode { get; set; }
     [StringLength(255)]
     public required string Naam { get; set; }
 

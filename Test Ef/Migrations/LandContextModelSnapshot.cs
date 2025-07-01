@@ -23,8 +23,8 @@ namespace Test_Ef.Migrations
 
             modelBuilder.Entity("LandTaal", b =>
                 {
-                    b.Property<int>("LandenLandCode")
-                        .HasColumnType("int");
+                    b.Property<string>("LandenLandCode")
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<int>("TalenTaalCode")
                         .HasColumnType("int");
@@ -38,11 +38,9 @@ namespace Test_Ef.Migrations
 
             modelBuilder.Entity("Test_Ef.Models.Land", b =>
                 {
-                    b.Property<int>("LandCode")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LandCode"));
+                    b.Property<string>("LandCode")
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<string>("Naam")
                         .IsRequired()
@@ -52,6 +50,13 @@ namespace Test_Ef.Migrations
                     b.HasKey("LandCode");
 
                     b.ToTable("Landen");
+
+                    b.HasData(
+                        new
+                        {
+                            LandCode = "BEL",
+                            Naam = "Naam"
+                        });
                 });
 
             modelBuilder.Entity("Test_Ef.Models.Stad", b =>
@@ -63,8 +68,8 @@ namespace Test_Ef.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StadNummer"));
 
-                    b.Property<int>("LandCode")
-                        .HasColumnType("int");
+                    b.Property<string>("LandCode")
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<string>("Naam")
                         .IsRequired()
@@ -114,9 +119,7 @@ namespace Test_Ef.Migrations
                 {
                     b.HasOne("Test_Ef.Models.Land", "Land")
                         .WithMany("Steden")
-                        .HasForeignKey("LandCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LandCode");
 
                     b.Navigation("Land");
                 });

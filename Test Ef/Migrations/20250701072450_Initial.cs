@@ -14,8 +14,7 @@ namespace Test_Ef.Migrations
                 name: "Landen",
                 columns: table => new
                 {
-                    LandCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LandCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Naam = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
@@ -43,7 +42,7 @@ namespace Test_Ef.Migrations
                     StadNr = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naam = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    LandCode = table.Column<int>(type: "int", nullable: false)
+                    LandCode = table.Column<string>(type: "nvarchar(3)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,15 +51,14 @@ namespace Test_Ef.Migrations
                         name: "FK_Steden_Landen_LandCode",
                         column: x => x.LandCode,
                         principalTable: "Landen",
-                        principalColumn: "LandCode",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "LandCode");
                 });
 
             migrationBuilder.CreateTable(
                 name: "LandTaal",
                 columns: table => new
                 {
-                    LandenLandCode = table.Column<int>(type: "int", nullable: false),
+                    LandenLandCode = table.Column<string>(type: "nvarchar(3)", nullable: false),
                     TalenTaalCode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -79,6 +77,11 @@ namespace Test_Ef.Migrations
                         principalColumn: "TaalCode",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Landen",
+                columns: new[] { "LandCode", "Naam" },
+                values: new object[] { "BEL", "Naam" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LandTaal_TalenTaalCode",
