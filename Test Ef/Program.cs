@@ -59,6 +59,7 @@ var stadObj = new Stad {
 
 context.Steden.Add(stadObj);
 context.SaveChanges();
+Console.WriteLine($"Stad `{nieuweStad}` toegevoegd");
 
 return;
 
