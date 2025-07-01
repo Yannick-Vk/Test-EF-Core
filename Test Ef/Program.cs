@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Test_Ef.Models;
 
-var context = new LandContext();
+using var context = new LandContext();
 
 Console.WriteLine("--- Landen georderd op Naam ---");
 foreach (var land in context.Landen.OrderBy(l => l.Naam)) {
@@ -20,12 +20,10 @@ if (inputStr.Length != 3) {
     return;
 }
 
-var landen = context.Landen
+var gevondenLand = context.Landen
     .Include(l=>l.Steden)
     .Include(l=> l.Talen)
-    .ToList();
-
-var gevondenLand = landen.Find(l => l.LandCode.Equals(inputStr, StringComparison.CurrentCultureIgnoreCase));
+    .FirstOrDefault(l => l.LandCode == inputStr.ToUpper());
 
 if (gevondenLand is null) {
     PrintError($"Landcode `{inputStr}` niet gevonden.");
