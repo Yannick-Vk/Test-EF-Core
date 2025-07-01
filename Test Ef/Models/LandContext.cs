@@ -49,11 +49,6 @@ public class LandContext : DbContext {
                 )
             );
 
-        modelBuilder.Entity<Stad>()
-            .HasOne(s => s.Land)
-            .WithMany(l => l.Steden)
-            .HasForeignKey(s => s.LandCode);
-
         modelBuilder.Entity<Land>().HasData([
             new Land { LandCode = "BEL", Naam = "Belgie" },
             new Land { LandCode = "DEU", Naam = "Duitsland" },

@@ -15,7 +15,7 @@ if (string.IsNullOrEmpty(inputStr)) {
     PrintError("Landcode mag niet leeg zijn.");
     return;
 }
-if (inputStr.Length is > 3 or < 3) {
+if (inputStr.Length != 3) {
     PrintError("Landcode moet 3 karakters lang zijn.");
     return;
 }
