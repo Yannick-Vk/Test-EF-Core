@@ -8,4 +8,6 @@ public class Taal {
     [Key]
     public int TaalCode { get; set; }
     public required string Naam { get; set; }
+    
+    public ICollection<Land> Landen { get; set; } = [];
 }

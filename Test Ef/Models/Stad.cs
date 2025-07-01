@@ -7,8 +7,8 @@ namespace Test_Ef.Models;
 public class Stad {
     [Key, Column("StadNr")]
     public int StadNummer { get; set; }
+    [StringLength(255)]
     public required string Naam { get; set; }
     
-    [ForeignKey("LandCode")]
-    public int LandCode { get; set; }
+    public Land Land { get; set; }
 }
