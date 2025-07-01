@@ -26,6 +26,16 @@ public class LandContext : DbContext {
             .HasMany(land => land.Talen)
             .WithMany(taal => taal.Landen)
             .UsingEntity(j => {
+                j.ToTable("LandenTalen");
+                j.Property("LandenLandCode").HasColumnName("LandCode");
+                j.Property("TalenTaalCode").HasColumnName("TaalCode");
+            })
+            ;
+
+        modelBuilder.Entity<Land>()
+            .HasMany(land => land.Talen)
+            .WithMany(taal => taal.Landen)
+            .UsingEntity(j =>
                 j.HasData(
                     new { LandenLandCode = "BEL", TalenTaalCode = "de" },
                     new { LandenLandCode = "BEL", TalenTaalCode = "fr" },
@@ -36,30 +46,29 @@ public class LandContext : DbContext {
                     new { LandenLandCode = "LUX", TalenTaalCode = "fr" },
                     new { LandenLandCode = "LUX", TalenTaalCode = "lb" },
                     new { LandenLandCode = "NLD", TalenTaalCode = "nl" }
-                );
-                j.ToTable("LandenTalen");
-            });
-        
+                )
+            );
+
         modelBuilder.Entity<Stad>()
             .HasOne(s => s.Land)
             .WithMany(l => l.Steden)
-            .HasForeignKey(s => s.LandCode); 
+            .HasForeignKey(s => s.LandCode);
 
         modelBuilder.Entity<Land>().HasData([
-            new Land { LandCode = "BEL", Naam = "Belgie"},
+            new Land { LandCode = "BEL", Naam = "Belgie" },
             new Land { LandCode = "DEU", Naam = "Duitsland" },
             new Land { LandCode = "FRA", Naam = "Frankrijk" },
             new Land { LandCode = "LUX", Naam = "Luxemburg" },
             new Land { LandCode = "NLD", Naam = "Nederland" },
         ]);
-        
+
         modelBuilder.Entity<Taal>().HasData([
             new Taal { TaalCode = "de", Naam = "Duits" },
             new Taal { TaalCode = "fr", Naam = "Frans" },
             new Taal { TaalCode = "lb", Naam = "Luxemburgs" },
             new Taal { TaalCode = "nl", Naam = "Nederlands" },
         ]);
-        
+
         modelBuilder.Entity<Stad>().HasData([
             new Stad { StadNummer = 1, Naam = "Brussel", LandCode = "BEL" },
             new Stad { StadNummer = 2, Naam = "Antwerpen", LandCode = "BEL" },
