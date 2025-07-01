@@ -11,7 +11,7 @@ using Test_Ef.Models;
 namespace Test_Ef.Migrations
 {
     [DbContext(typeof(LandContext))]
-    [Migration("20250701072450_Initial")]
+    [Migration("20250701080734_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -29,14 +29,61 @@ namespace Test_Ef.Migrations
                     b.Property<string>("LandenLandCode")
                         .HasColumnType("nvarchar(3)");
 
-                    b.Property<int>("TalenTaalCode")
-                        .HasColumnType("int");
+                    b.Property<string>("TalenTaalCode")
+                        .HasColumnType("nvarchar(3)");
 
                     b.HasKey("LandenLandCode", "TalenTaalCode");
 
                     b.HasIndex("TalenTaalCode");
 
-                    b.ToTable("LandTaal");
+                    b.ToTable("LandenTalen", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LandenLandCode = "BEL",
+                            TalenTaalCode = "de"
+                        },
+                        new
+                        {
+                            LandenLandCode = "BEL",
+                            TalenTaalCode = "fr"
+                        },
+                        new
+                        {
+                            LandenLandCode = "BEL",
+                            TalenTaalCode = "nl"
+                        },
+                        new
+                        {
+                            LandenLandCode = "DEU",
+                            TalenTaalCode = "de"
+                        },
+                        new
+                        {
+                            LandenLandCode = "FRA",
+                            TalenTaalCode = "fr"
+                        },
+                        new
+                        {
+                            LandenLandCode = "LUX",
+                            TalenTaalCode = "de"
+                        },
+                        new
+                        {
+                            LandenLandCode = "LUX",
+                            TalenTaalCode = "fr"
+                        },
+                        new
+                        {
+                            LandenLandCode = "LUX",
+                            TalenTaalCode = "lb"
+                        },
+                        new
+                        {
+                            LandenLandCode = "NLD",
+                            TalenTaalCode = "nl"
+                        });
                 });
 
             modelBuilder.Entity("Test_Ef.Models.Land", b =>
@@ -58,7 +105,27 @@ namespace Test_Ef.Migrations
                         new
                         {
                             LandCode = "BEL",
-                            Naam = "Naam"
+                            Naam = "Belgie"
+                        },
+                        new
+                        {
+                            LandCode = "DEU",
+                            Naam = "Duitsland"
+                        },
+                        new
+                        {
+                            LandCode = "FRA",
+                            Naam = "Frankrijk"
+                        },
+                        new
+                        {
+                            LandCode = "LUX",
+                            Naam = "Luxemburg"
+                        },
+                        new
+                        {
+                            LandCode = "NLD",
+                            Naam = "Nederland"
                         });
                 });
 
@@ -88,11 +155,9 @@ namespace Test_Ef.Migrations
 
             modelBuilder.Entity("Test_Ef.Models.Taal", b =>
                 {
-                    b.Property<int>("TaalCode")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaalCode"));
+                    b.Property<string>("TaalCode")
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<string>("Naam")
                         .IsRequired()
@@ -101,6 +166,28 @@ namespace Test_Ef.Migrations
                     b.HasKey("TaalCode");
 
                     b.ToTable("Talen");
+
+                    b.HasData(
+                        new
+                        {
+                            TaalCode = "de",
+                            Naam = "Duits"
+                        },
+                        new
+                        {
+                            TaalCode = "fr",
+                            Naam = "Frans"
+                        },
+                        new
+                        {
+                            TaalCode = "lb",
+                            Naam = "Luxemburgs"
+                        },
+                        new
+                        {
+                            TaalCode = "nl",
+                            Naam = "Nederlands"
+                        });
                 });
 
             modelBuilder.Entity("LandTaal", b =>

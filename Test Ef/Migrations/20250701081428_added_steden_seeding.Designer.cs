@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Test_Ef.Models;
 
@@ -10,9 +11,11 @@ using Test_Ef.Models;
 namespace Test_Ef.Migrations
 {
     [DbContext(typeof(LandContext))]
-    partial class LandContextModelSnapshot : ModelSnapshot
+    [Migration("20250701081428_added_steden_seeding")]
+    partial class added_steden_seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

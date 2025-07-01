@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Test_Ef.Migrations
 {
     /// <inheritdoc />
@@ -26,8 +28,7 @@ namespace Test_Ef.Migrations
                 name: "Talen",
                 columns: table => new
                 {
-                    TaalCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TaalCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Naam = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -55,23 +56,23 @@ namespace Test_Ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LandTaal",
+                name: "LandenTalen",
                 columns: table => new
                 {
                     LandenLandCode = table.Column<string>(type: "nvarchar(3)", nullable: false),
-                    TalenTaalCode = table.Column<int>(type: "int", nullable: false)
+                    TalenTaalCode = table.Column<string>(type: "nvarchar(3)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LandTaal", x => new { x.LandenLandCode, x.TalenTaalCode });
+                    table.PrimaryKey("PK_LandenTalen", x => new { x.LandenLandCode, x.TalenTaalCode });
                     table.ForeignKey(
-                        name: "FK_LandTaal_Landen_LandenLandCode",
+                        name: "FK_LandenTalen_Landen_LandenLandCode",
                         column: x => x.LandenLandCode,
                         principalTable: "Landen",
                         principalColumn: "LandCode",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LandTaal_Talen_TalenTaalCode",
+                        name: "FK_LandenTalen_Talen_TalenTaalCode",
                         column: x => x.TalenTaalCode,
                         principalTable: "Talen",
                         principalColumn: "TaalCode",
@@ -81,11 +82,45 @@ namespace Test_Ef.Migrations
             migrationBuilder.InsertData(
                 table: "Landen",
                 columns: new[] { "LandCode", "Naam" },
-                values: new object[] { "BEL", "Naam" });
+                values: new object[,]
+                {
+                    { "BEL", "Belgie" },
+                    { "DEU", "Duitsland" },
+                    { "FRA", "Frankrijk" },
+                    { "LUX", "Luxemburg" },
+                    { "NLD", "Nederland" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Talen",
+                columns: new[] { "TaalCode", "Naam" },
+                values: new object[,]
+                {
+                    { "de", "Duits" },
+                    { "fr", "Frans" },
+                    { "lb", "Luxemburgs" },
+                    { "nl", "Nederlands" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LandenTalen",
+                columns: new[] { "LandenLandCode", "TalenTaalCode" },
+                values: new object[,]
+                {
+                    { "BEL", "de" },
+                    { "BEL", "fr" },
+                    { "BEL", "nl" },
+                    { "DEU", "de" },
+                    { "FRA", "fr" },
+                    { "LUX", "de" },
+                    { "LUX", "fr" },
+                    { "LUX", "lb" },
+                    { "NLD", "nl" }
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_LandTaal_TalenTaalCode",
-                table: "LandTaal",
+                name: "IX_LandenTalen_TalenTaalCode",
+                table: "LandenTalen",
                 column: "TalenTaalCode");
 
             migrationBuilder.CreateIndex(
@@ -98,7 +133,7 @@ namespace Test_Ef.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LandTaal");
+                name: "LandenTalen");
 
             migrationBuilder.DropTable(
                 name: "Steden");
