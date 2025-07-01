@@ -5,11 +5,11 @@ namespace Test_Ef.Models;
 
 public class LandContext : DbContext {
     public static IConfigurationRoot config;
-    
+
     public DbSet<Land> Landen { get; set; }
     public DbSet<Stad> Steden { get; set; }
-    public DbSet<Taal> Talen  { get; set; }
-    
+    public DbSet<Taal> Talen { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetParent(AppContext.BaseDirectory)?.FullName)
@@ -22,11 +22,12 @@ public class LandContext : DbContext {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        modelBuilder.Entity<Land>()
-            .HasMany(l => l.Talen)
-            ;
-        modelBuilder.Entity<Stad>().HasOne(s => s.Land);
-        
+        modelBuilder.Entity<Land>().HasMany(l => l.Talen);
         modelBuilder.Entity<Taal>().HasMany(t => t.Landen);
+        modelBuilder.Entity<Stad>().HasOne(s => s.Land);
+
+        modelBuilder.Entity<Land>().HasData([
+            new Land { LandCode = "BEL", Naam = "Naam" },
+        ]);
     }
 }
